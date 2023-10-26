@@ -1,3 +1,47 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/strict-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
+    "airbnb",
+    "airbnb/hooks",
+    "airbnb-typescript",
+    "prettier",
+    "next/core-web-vitals"
+  ],
+  "overrides": [],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["@typescript-eslint"],
+  "rules": {
+    "@typescript-eslint/ban-ts-comment": "off",
+    "quotes": "off",
+    "@typescript-eslint/quotes": "off",
+    "react/function-component-definition": "off",
+    "func-names": "off",
+    "no-sparse-arrays": "off",
+    "no-underscore-dangle": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "import/order": "off",
+    "react/require-default-props": "off",
+    "react/display-name": "off",
+    "react/jsx-props-no-spreading": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-unsafe-call": "off",
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-confusing-void-expression": "off"
+  }
 }
