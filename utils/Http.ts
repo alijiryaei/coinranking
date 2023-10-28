@@ -54,7 +54,7 @@ export default class Http {
       ...(_headers ? { headers: _headers } : {}),
     });
     
-    console.log(response);
+    // console.log(response);
     return response.data;
   }
 }
