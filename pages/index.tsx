@@ -4,6 +4,7 @@ import Http from "@utils/Http";
 import Container from "@mui/material/Container";
 import {
   Box,
+  Pagination,
   Stack,
   Table,
   TableBody,
@@ -55,6 +56,9 @@ export default function Home({
       </Head>
       <main>
         <Container maxWidth="lg">
+          <Box width={200} height={200}>
+            test box
+          </Box>
           <TableContainer sx={{ maxHeight: "100vh" }} component={Box}>
             <Table stickyHeader>
               <TableHead>
@@ -113,7 +117,7 @@ export default function Home({
                     <TableCell align="left">
                       {priceFormatter(coin.price)}
                     </TableCell>
-                    <TableCell  sx={{width:200}} align="left">
+                    <TableCell sx={{ width: 200 }} align="left">
                       {priceFormatter(coin.marketCap)}
                     </TableCell>
                     <TableCell>{coin.change}</TableCell>
@@ -122,6 +126,14 @@ export default function Home({
               </TableBody>
             </Table>
           </TableContainer>
+          <Stack
+            padding={3}
+            direction="row"
+            justifyContent="center"
+            width="100%"
+          >
+            <Pagination count={10} shape="rounded" />
+          </Stack>
         </Container>
       </main>
     </>
@@ -130,12 +142,12 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps<{
   coins: Coin[];
-}> = async ({query}) => {
+}> = async ({ query }) => {
   const params = {
     orderBy: query.sorton ? query.sorton : "marketCap",
-    orderDirection: query.sortby ?? "desc"
-  }
-  const res = await Http.get<CoinsData>({ url: "coins" , params});
+    orderDirection: query.sortby ?? "desc",
+  };
+  const res = await Http.get<CoinsData>({ url: "coins", params });
 
   return {
     props: {
