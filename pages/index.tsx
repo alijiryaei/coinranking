@@ -113,7 +113,7 @@ export default function Home({
                     <TableCell align="left">
                       {priceFormatter(coin.price)}
                     </TableCell>
-                    <TableCell align="left">
+                    <TableCell  sx={{width:200}} align="left">
                       {priceFormatter(coin.marketCap)}
                     </TableCell>
                     <TableCell>{coin.change}</TableCell>
