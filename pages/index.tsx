@@ -11,9 +11,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { priceFormatter } from "@/utils/Helper";
-
+import useQueryUtils from "@/hooks/useQueryUtils";
 
 interface Coin {
   uuid: string;
@@ -22,7 +23,7 @@ interface Coin {
   iconUrl: string;
   marketCap: string;
   rank: number;
-  change : string
+  change: string;
 }
 
 interface CoinsData {
@@ -31,12 +32,20 @@ interface CoinsData {
   };
 }
 
-
-
-
 export default function Home({
   coins,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const queryUtils = useQueryUtils();
+
+  const handleSortingClick = (key: string) => () => {
+    if (queryUtils.state.sorton === key) {
+      const sortByKey = queryUtils.state.sortby === "desc" ? "asc" : "desc";
+      queryUtils.update("sortby", sortByKey);
+      return;
+    }
+    queryUtils.updateMultipleParam({ sorton: key, sortby: "desc" });
+  };
+
   return (
     <>
       <Head>
@@ -50,10 +59,42 @@ export default function Home({
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">All coins</TableCell>
-                  <TableCell align="left">Price</TableCell>
-                  <TableCell align="left">Market Cap</TableCell>
-                  <TableCell align="left">7d</TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      sx={{ cursor: "pointer" }}
+                      variant="subtitle2"
+                      onClick={handleSortingClick("")}
+                    >
+                      All coins
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      sx={{ cursor: "pointer" }}
+                      variant="subtitle2"
+                      onClick={handleSortingClick("price")}
+                    >
+                      Price
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      sx={{ cursor: "pointer" }}
+                      variant="subtitle2"
+                      onClick={handleSortingClick("marketCap")}
+                    >
+                      Market Cap
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography
+                      sx={{ cursor: "pointer" }}
+                      variant="subtitle2"
+                      onClick={handleSortingClick("change")}
+                    >
+                      7d
+                    </Typography>
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -69,8 +110,12 @@ export default function Home({
                         {coin.name}
                       </Stack>
                     </TableCell>
-                    <TableCell align="left">{priceFormatter(coin.price)}</TableCell>
-                    <TableCell align="left">{priceFormatter(coin.marketCap)}</TableCell>
+                    <TableCell align="left">
+                      {priceFormatter(coin.price)}
+                    </TableCell>
+                    <TableCell align="left">
+                      {priceFormatter(coin.marketCap)}
+                    </TableCell>
                     <TableCell>{coin.change}</TableCell>
                   </TableRow>
                 ))}
@@ -85,8 +130,12 @@ export default function Home({
 
 export const getServerSideProps: GetServerSideProps<{
   coins: Coin[];
-}> = async () => {
-  const res = await Http.get<CoinsData>({ url: "coins" });
+}> = async ({query}) => {
+  const params = {
+    orderBy: query.sorton ? query.sorton : "marketCap",
+    orderDirection: query.sortby ?? "desc"
+  }
+  const res = await Http.get<CoinsData>({ url: "coins" , params});
 
   return {
     props: {
