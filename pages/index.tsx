@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { priceFormatter } from "@/utils/Helper";
 import useQueryUtils from "@/hooks/useQueryUtils";
+import { useState } from "react";
 
 interface Coin {
   uuid: string;
@@ -44,8 +45,15 @@ export default function Home({
       queryUtils.update("sortby", sortByKey);
       return;
     }
-    queryUtils.updateMultipleParam({ sorton: key, sortby: "desc" });
+    queryUtils.updateMultipleParam({ sorton: key, sortby: "desc" , page : "1"});
   };
+
+
+  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+     queryUtils.update("page" , value.toString());
+  };
+
+  const page = queryUtils.state.page ? Number(queryUtils.state.page) : 1;
 
   return (
     <>
@@ -59,7 +67,7 @@ export default function Home({
           <Box width={200} height={200}>
             test box
           </Box>
-          <TableContainer sx={{ maxHeight: "100vh" }} component={Box}>
+          <TableContainer component={Box}>
             <Table stickyHeader>
               <TableHead>
                 <TableRow>
@@ -132,7 +140,7 @@ export default function Home({
             justifyContent="center"
             width="100%"
           >
-            <Pagination count={10} shape="rounded" />
+            <Pagination page={page} onChange={handleChange} count={10} shape="rounded" />
           </Stack>
         </Container>
       </main>
@@ -146,6 +154,7 @@ export const getServerSideProps: GetServerSideProps<{
   const params = {
     orderBy: query.sorton ? query.sorton : "marketCap",
     orderDirection: query.sortby ?? "desc",
+    offset: query.page ? Number(query.page) * 50 - 50 : 0
   };
   const res = await Http.get<CoinsData>({ url: "coins", params });
 
