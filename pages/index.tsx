@@ -4,6 +4,7 @@ import Http from "@utils/Http";
 import Container from "@mui/material/Container";
 import {
   Box,
+  IconButton,
   Pagination,
   Stack,
   Table,
@@ -16,7 +17,10 @@ import {
 } from "@mui/material";
 import { priceFormatter } from "@/utils/Helper";
 import useQueryUtils from "@/hooks/useQueryUtils";
-
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { updateWishlist } from "@/store/wishlist/wishlistActions";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface Coin {
   uuid: string;
@@ -38,6 +42,12 @@ export default function Home({
   coins,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const queryUtils = useQueryUtils();
+  const wishlist = useSelector((state : RootState) => state.persistedReducer.wishlist.wishlistItems) ?? [];
+  const dispatch = useDispatch();
+
+  const handlewishlist = (wishlistItemToAdd : {uuid:string ; name : string; iconUrl: string}) => {
+    dispatch(updateWishlist(wishlist , wishlistItemToAdd))
+  }
 
   const handleSortingClick = (key: string) => () => {
     if (queryUtils.state.sorton === key) {
@@ -114,10 +124,18 @@ export default function Home({
                 </TableRow>
               </TableHead>
               <TableBody>
-                {coins.map((coin) => (
+                {coins.map((coin) => {
+                  const favouriteCoin = wishlist.some(wishlistItem => wishlistItem.uuid === coin.uuid)
+                  return(
                   <TableRow  sx={{cursor: "pointer"}} onClick={handleCoinClick(coin.uuid)} hover key={coin.uuid}>
                     <TableCell>
                       <Stack alignItems="center" direction="row" gap={2}>
+                        <IconButton onClick={(e) => {
+                          e.stopPropagation()
+                          handlewishlist({uuid : coin.uuid , name: coin.name , iconUrl:coin.iconUrl})
+                        }}>
+                          <FavoriteIcon color={favouriteCoin ? "error" : "inherit"} fontSize="small" />
+                        </IconButton>
                         {coin.rank}
                         <img
                           style={{ width: 24, height: 24 }}
@@ -134,7 +152,7 @@ export default function Home({
                     </TableCell>
                     <TableCell>{coin.change}</TableCell>
                   </TableRow>
-                ))}
+                )})}
               </TableBody>
             </Table>
           </TableContainer>
