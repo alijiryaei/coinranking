@@ -44,7 +44,7 @@ const CoinTableRow: FC<Coin> = ({
             />
           </IconButton>
           {rank}
-          <img style={{ width: 24, height: 24 }} src={iconUrl} />
+          <img style={{ width: 24, height: 24 }} src={iconUrl} alt={name} />
           {name}
         </Stack>
       </TableCell>

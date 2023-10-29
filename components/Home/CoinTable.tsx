@@ -9,7 +9,7 @@ interface CoinTableProps {
 }
 
 const CoinTable: FC<CoinTableProps> = ({ coins }) => (
-  <TableContainer component={Box}>
+  <TableContainer marginTop={4} component={Box}>
     <Table stickyHeader>
       <CoinTableHead />
       <TableBody>

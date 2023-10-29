@@ -24,7 +24,7 @@ const CoinDetailPage : FC<CoinDetail> = (coin) => {
       />
       <Container maxWidth="lg">
         <Stack mb={2} direction="row" gap={2} alignItems="center">
-          <img src={coin.iconUrl} width={30} height={30} />
+          <img src={coin.iconUrl} alt={coin.name} width={30} height={30}  />
           <Typography variant="h4">{coin.name}</Typography>
           <Typography variant="body1">{coin.symbol}</Typography>
           <IconButton
