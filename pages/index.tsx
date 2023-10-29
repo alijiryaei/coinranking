@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { updateWishlist } from "@/store/wishlist/wishlistActions";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import { WishlistItem } from "@/types/store";
 
 interface Coin {
   uuid: string;
@@ -45,7 +46,7 @@ export default function Home({
   const wishlist = useSelector((state : RootState) => state.persistedReducer.wishlist.wishlistItems) ?? [];
   const dispatch = useDispatch();
 
-  const handlewishlist = (wishlistItemToAdd : {uuid:string ; name : string; iconUrl: string}) => {
+  const handlewishlist = (wishlistItemToAdd : WishlistItem) => {
     dispatch(updateWishlist(wishlist , wishlistItemToAdd))
   }
 
