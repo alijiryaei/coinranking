@@ -1,7 +1,12 @@
+import { RootState } from "@/store/store";
+import { updateWishlist } from "@/store/wishlist/wishlistActions";
+import { WishlistItem } from "@/types/store";
 import { priceFormatter } from "@/utils/Helper";
-import { Box, Container, Stack, Typography, useTheme } from "@mui/material";
+import { Box, Container, IconButton, Stack, Typography, useTheme } from "@mui/material";
 import Http from "@utils/Http";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { useDispatch, useSelector } from "react-redux";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 interface CoinDetail {
   uuid: string;
@@ -31,6 +36,20 @@ export default function CoinPage({
   const {
     palette: { error, success },
   } = useTheme();
+
+  const dispatch = useDispatch();
+  const wishlist =
+    useSelector(
+      (state: RootState) => state.persistedReducer.wishlist.wishlistItems,
+    ) ?? [];
+  const favouriteCoin = wishlist.some(
+    (wishlistItem) => wishlistItem.uuid === coin.uuid,
+  );
+
+  const handlewishlist = (wishlistItemToAdd: WishlistItem) => {
+    dispatch(updateWishlist(wishlist, wishlistItemToAdd));
+  };
+
   return (
     <>
       <Box
@@ -44,6 +63,20 @@ export default function CoinPage({
           <img src={coin.iconUrl} width={30} height={30} />
           <Typography variant="h4">{coin.name}</Typography>
           <Typography variant="body1">{coin.symbol}</Typography>
+          <IconButton
+            onClick={() => {
+              handlewishlist({
+                uuid: coin.uuid,
+                name: coin.name,
+                iconUrl: coin.iconUrl,
+              });
+            }}
+          >
+            <FavoriteIcon
+              color={favouriteCoin ? "error" : "inherit"}
+              fontSize="small"
+            />
+          </IconButton>
         </Stack>
         <Stack mb={2}>
           <Typography variant="h4">{priceFormatter(coin.price)}</Typography>
@@ -68,7 +101,7 @@ export const getServerSideProps: GetServerSideProps<{
   coin: CoinDetail;
 }> = async ({ query }) => {
   const uuid = query.slug as string;
-  const res = await Http.get<CoinDetailData>({ url: `coin/${uuid}`});
+  const res = await Http.get<CoinDetailData>({ url: `coin/${uuid}` });
 
   return {
     props: {
