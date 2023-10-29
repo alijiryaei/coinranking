@@ -20,11 +20,14 @@ const useQueryUtils = () => {
     router.push({query : {...queryState , ...queries}})
   }
 
+  const updateUrl = (url : string) => {
+    router.push(url)
+  }
   const state = router.query;
 
   return {
     update,
-    router,
+    updateUrl,
     state,
     updateMultipleParam
   };

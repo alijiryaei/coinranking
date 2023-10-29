@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import { priceFormatter } from "@/utils/Helper";
 import useQueryUtils from "@/hooks/useQueryUtils";
-import { useState } from "react";
+
 
 interface Coin {
   uuid: string;
@@ -54,6 +54,10 @@ export default function Home({
   };
 
   const page = queryUtils.state.page ? Number(queryUtils.state.page) : 1;
+
+  const handleCoinClick = (uuid : string) => () => {
+    queryUtils.updateUrl(`coin/${uuid}`)
+  }
 
   return (
     <>
@@ -111,7 +115,7 @@ export default function Home({
               </TableHead>
               <TableBody>
                 {coins.map((coin) => (
-                  <TableRow hover key={coin.uuid}>
+                  <TableRow  sx={{cursor: "pointer"}} onClick={handleCoinClick(coin.uuid)} hover key={coin.uuid}>
                     <TableCell>
                       <Stack alignItems="center" direction="row" gap={2}>
                         {coin.rank}

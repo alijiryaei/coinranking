@@ -1,6 +1,5 @@
 /* eslint-disable import/prefer-default-export */
 
-const USDollar = new Intl.NumberFormat("en-US");
 
 const priceFormatter = (price: string | number): string => {
   const newPrice = Number(price);
