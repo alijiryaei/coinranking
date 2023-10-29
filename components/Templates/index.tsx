@@ -19,34 +19,20 @@ const HomePage: FC<HomePageProps> = ({ coins }) => {
 
   const page = queryUtils.state.page ? Number(queryUtils.state.page) : 1;
   return (
-    <>
-      <Head>
-        <title>Coinranking</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <Container maxWidth="lg">
-          <Box width={200} height={200}>
-            test box
-          </Box>
-          <CoinTable coins={coins} />
-          <Stack
-            padding={3}
-            direction="row"
-            justifyContent="center"
-            width="100%"
-          >
-            <Pagination
-              page={page}
-              onChange={handleChange}
-              count={10}
-              shape="rounded"
-            />
-          </Stack>
-        </Container>
-      </main>
-    </>
+    <Container maxWidth="lg">
+      <Box width={200} height={200}>
+        test box
+      </Box>
+      <CoinTable coins={coins} />
+      <Stack padding={3} direction="row" justifyContent="center" width="100%">
+        <Pagination
+          page={page}
+          onChange={handleChange}
+          count={10}
+          shape="rounded"
+        />
+      </Stack>
+    </Container>
   );
 };
 
