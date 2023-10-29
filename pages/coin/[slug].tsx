@@ -2,7 +2,7 @@ import Http from "@utils/Http";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { CoinDetail } from "@/types/coinDetailPage";
 import CoinDetailPage from "@/components/Templates/Coin";
-
+import RootLayot from "@/components/Layout";
 
 interface CoinDetailData {
   data: {
@@ -14,7 +14,9 @@ export default function CoinPage({
   coin,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
-    <CoinDetailPage {...coin} />
+    <RootLayot title={coin.name}>
+      <CoinDetailPage {...coin} />
+    </RootLayot>
   );
 }
 
