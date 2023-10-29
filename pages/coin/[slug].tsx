@@ -23,6 +23,7 @@ export default function CoinPage({
 export const getServerSideProps: GetServerSideProps<{
   coin: CoinDetail;
 }> = async ({ query }) => {
+  try {
   const uuid = query.slug as string;
   const res = await Http.get<CoinDetailData>({ url: `coin/${uuid}` });
 
@@ -31,4 +32,9 @@ export const getServerSideProps: GetServerSideProps<{
       coin: res.data.coin,
     },
   };
+  }catch(e) {
+    return {
+      notFound : true
+    }
+  } 
 };

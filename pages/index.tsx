@@ -23,6 +23,7 @@ export default function Home({
 export const getServerSideProps: GetServerSideProps<{
   coins: Coin[];
 }> = async ({ query }) => {
+  try {
   const params = {
     orderBy: query.sorton ? query.sorton : "marketCap",
     orderDirection: query.sortby ?? "desc",
@@ -35,4 +36,9 @@ export const getServerSideProps: GetServerSideProps<{
       coins: res.data.coins,
     },
   };
+  } catch(e) {
+    return {
+      notFound : true
+    }
+  }
 };
