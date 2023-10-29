@@ -7,3 +7,9 @@ export interface WishlistItem {
 export interface WishlistState {
    wishlistItems : WishlistItem[]
 }
+
+export type Mode = "light" | "dark";
+
+export interface ColorMode {
+    mode : Mode
+}
