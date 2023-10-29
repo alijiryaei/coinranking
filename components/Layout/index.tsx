@@ -7,9 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import ModeNightIcon from '@mui/icons-material/ModeNight';
 import Head from "next/head";
 import Image from "next/image";
 import { FC, PropsWithChildren } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { toggleColorMode } from "@/store/colorMode/colorModeSlice";
 
 interface RootLayoutProps {
   title: string;
@@ -18,7 +23,15 @@ interface RootLayoutProps {
 const RootLayot: FC<PropsWithChildren<RootLayoutProps>> = ({
   children,
   title,
-}) => (
+}) => {
+  const mode = useSelector((state:RootState) => state.persistedReducer.colorMode.mode) ?? "light";
+  const dispatch = useDispatch();
+
+  const handleToggleColorModeClick = () => {
+   const color = mode === "light" ? "dark" : "light"
+   dispatch(toggleColorMode(color))
+  }
+  return(
   <>
     <Head>
       <title>{title}</title>
@@ -42,6 +55,9 @@ const RootLayot: FC<PropsWithChildren<RootLayoutProps>> = ({
               <IconButton>
                 <FavoriteBorderIcon />
               </IconButton>
+              <IconButton onClick={handleToggleColorModeClick}>
+                {mode === "light" ? (<ModeNightIcon />) : (<WbSunnyIcon />)}
+              </IconButton>
             </Stack>
           </Stack>
         </Toolbar>
@@ -49,6 +65,6 @@ const RootLayot: FC<PropsWithChildren<RootLayoutProps>> = ({
     </AppBar>
     <main>{children}</main>
   </>
-);
+)};
 
 export default RootLayot;

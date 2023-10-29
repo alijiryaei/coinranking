@@ -2,6 +2,7 @@ import wishlistReducer from "@/store/wishlist/wishlistSlice";
 import { configureStore , combineReducers } from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
+import colorModeSlice from "./colorMode/colorModeSlice";
 
 
 const persistConfig = {
@@ -10,7 +11,8 @@ const persistConfig = {
 }
 
 const reducer = combineReducers({
-  wishlist : wishlistReducer
+  wishlist : wishlistReducer,
+  colorMode : colorModeSlice
 })
 
 const persistedReducer = persistReducer(persistConfig , reducer)

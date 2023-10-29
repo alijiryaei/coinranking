@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Container from "@mui/material/Container";
 import CoinTable from "../Home/CoinTable";
 import { FC } from "react";
