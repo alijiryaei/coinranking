@@ -2,7 +2,7 @@ import Container from "@mui/material/Container";
 import CoinTable from "../Home/CoinTable";
 import { FC } from "react";
 import { Coin } from "@/types/homePage";
-import { Box, Pagination, Stack } from "@mui/material";
+import { Pagination, Stack } from "@mui/material";
 import useQueryUtils from "@/hooks/useQueryUtils";
 
 interface HomePageProps {
