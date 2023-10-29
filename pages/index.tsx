@@ -1,16 +1,7 @@
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Http from "@utils/Http";
 import HomePage from "@/components/Templates";
-
-interface Coin {
-  uuid: string;
-  name: string;
-  price: string;
-  iconUrl: string;
-  marketCap: string;
-  rank: number;
-  change: string;
-}
+import { Coin } from "@/types/homePage";
 
 interface CoinsData {
   data: {
