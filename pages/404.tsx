@@ -10,7 +10,7 @@ export default function NotFound() {
           minHeight: "100vh",
         }}
       >
-        <Typography variant="h1" style={{ color: "white" }}>
+        <Typography variant="h3">
           Page not found. Please try again later
         </Typography>
       </Box>
