@@ -63,7 +63,7 @@ const RootLayot: FC<PropsWithChildren<RootLayoutProps>> = ({
         </Toolbar>
       </Container>
     </AppBar>
-    <main>{children}</main>
+    <main style={{marginTop : 50}}>{children}</main>
   </>
 )};
 

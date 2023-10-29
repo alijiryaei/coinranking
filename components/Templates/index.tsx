@@ -19,9 +19,6 @@ const HomePage: FC<HomePageProps> = ({ coins }) => {
   const page = queryUtils.state.page ? Number(queryUtils.state.page) : 1;
   return (
     <Container maxWidth="lg">
-      <Box width={200} height={200}>
-        test box
-      </Box>
       <CoinTable coins={coins} />
       <Stack padding={3} direction="row" justifyContent="center" width="100%">
         <Pagination
